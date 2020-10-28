@@ -1,7 +1,7 @@
 <h1>Automatic Phonetic Transcription (ES)</h1>
 
 This command line programm turns any **Spanish** word into it's phonetic
-transcription in X-Sampa.<br>
+transcription (in X-Sampa).<br>
 
 E.g.:<br>
 "transcripción" --> t 4 a n s . k 4 i p . " T j o n <br>
