@@ -1,3 +1,8 @@
+"""
+This command line programm turns any Spanish word into it's phonetic
+transcription in X-Sampa.
+"""
+
 import re
 import sys
 import pyperclip
@@ -17,7 +22,10 @@ stress = None
 # pseudonyms: j\ = ä; tS = ö
 
 
-def createPronList():
+def create_pron_list():
+    """
+    create pron list
+    """
     global pronList
     pronList = []
     for x in range(len(pron)):
@@ -26,6 +34,9 @@ def createPronList():
 
 
 def createConsAndVocCode():
+    """
+    create consonants and vocals code
+    """
     global consAndVocCode
     consAndVocCode = []
     for i in range(len(pron)):
@@ -40,6 +51,9 @@ def createConsAndVocCode():
 
 
 def insertDotAtPosition(insertPoint):
+    """
+    inserts dots at specified position
+    """
     global pron
     global pronList
     if len(pronList) >= insertPoint + 2:
@@ -49,12 +63,18 @@ def insertDotAtPosition(insertPoint):
 
 
 def endsOnVowelEtc(string):
+    """
+    checks if string ends on vowel, n or s
+    """
     # vowelEtcList = [a, e, u, o, i, n, s]
     x = re.findall("a$|e$|u$|o$|n$|i$|s$", string)
     return bool(x)
 
 
 def findNearestDot(possibleStress, list):
+    """
+    finds the nearest dot
+    """
     # print("original list: ", list)
     ergebnisSubtraktion = []
     z = 0
@@ -70,6 +90,9 @@ def findNearestDot(possibleStress, list):
 
 
 def fricativesChangePos(f1, f2, string):
+    """
+    changes position of fricatives
+    """
     string = string.replace(f1 + "." + f2, "." + f1 + f2)
     return string
 
@@ -136,7 +159,7 @@ listOfSyllParts = []
 # SYLLABLES / DOTS
 for j in range(len(originalPron)):
     createConsAndVocCode()
-    createPronList()
+    create_pron_list()
 
     if re.search("^ccvcv", consAndVocCode)\
             or re.search("^cvcc", consAndVocCode)\
@@ -248,7 +271,7 @@ else:
 
 # last operations
 pron = pron.replace(".", "", 1)     # delete first dot again
-pron = createPronList()
+pron = create_pron_list()
 pron = " ".join(pron)               # put spaces
 pron = pron.replace("ä", "j\\")
 pron = pron.replace("ö", "tS")
