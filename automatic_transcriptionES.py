@@ -7,14 +7,14 @@ if len(sys.argv) == 1:
 elif len(sys.argv) == 2:
     originalPron = sys.argv[1]
 else:
-    print("Warning: Maximum one command-line argument will be taken into \
+    print("Warning: Max. one command-line argument will be taken into \
     consideration.")
     originalPron = sys.argv[1]
 
 pron = originalPron
 stress = None
 
-# pseudonyme: j\ = ä; tS = ö
+# pseudonyms: j\ = ä; tS = ö
 
 
 def createPronList():
@@ -55,15 +55,15 @@ def endsOnVowelEtc(string):
 
 
 def findNearestDot(possibleStress, list):
-    print("originale liste: ", list)
+    # print("original list: ", list)
     ergebnisSubtraktion = []
     z = 0
     while z < len(list):
         e = abs(possibleStress - list[z])
         ergebnisSubtraktion.append(e)
         z += 1
-    print("ergebnis subtraktion: ", ergebnisSubtraktion)
-    print("kleinste der zahlen : ", min(ergebnisSubtraktion))
+    # print("result subtraction: ", ergebnisSubtraktion)
+    # print("smallest number: ", min(ergebnisSubtraktion))
     listPositionNearestDot = \
         ergebnisSubtraktion.index(min(ergebnisSubtraktion))
     return list[listPositionNearestDot]
@@ -111,7 +111,7 @@ pron = pron.replace("β", "B").replace("ð", "D").replace("n̩", "n").\
     replace("ṇ", "n").replace("np", "mp").replace("nb", "mb").\
     replace("nk", "Nk").replace("NG", "Ng").replace("NGe", "Nge").\
     replace("θ", "T").replace("ʎ", "L").replace("ˠ", "k")
-pron = pron.replace("ɟ", "ä")  # ɟ --> j\ --> ä
+pron = pron.replace("ɟ", "ä")       # ɟ --> j\ --> ä
 pron = pron.replace("ɲ", "J").replace("ñ", "J").replace("ŋ", "N").\
     replace("u̯", "w").replace("j", "x").replace("v", "B").replace("b", "B")
 if pron.find("B") == 0:
@@ -141,21 +141,24 @@ for j in range(len(originalPron)):
     if re.search("^ccvcv", consAndVocCode)\
             or re.search("^cvcc", consAndVocCode)\
             or re.search("^cvvcv", consAndVocCode):
-        # presentacion / discapacitado / biologo
         insertDotAtPosition(3)
-    elif re.search("^ccvcc", consAndVocCode)\
+        # e.g. presentacion / discapacitado / biologo
+    elif re.search("^ccvccv", consAndVocCode)\
             or re.search("^cvvcc", consAndVocCode)\
             or re.search("^ccvv", consAndVocCode):
-        # grande / fuente / krej
         insertDotAtPosition(4)
+        # e.g. grande / fuente / krej
+    elif re.search("^ccvccc", consAndVocCode):
+        insertDotAtPosition(5)
+        # e.g. transcripcion
     elif re.search("^cvcv", consAndVocCode)\
             or re.search("^vcc", consAndVocCode)\
             or re.search("^vvc", consAndVocCode):
-        # pacitado / imposible / aire
         insertDotAtPosition(2)
+        # e.g. pacitado / imposible / aire
     elif re.search("^vcv", consAndVocCode):
-        # identificacion
         insertDotAtPosition(1)
+        # e.g. identificacion
 
     listOfSyllables = re.split(r"\.", pron)
     listOfSyllParts.append(listOfSyllables[0])
@@ -189,9 +192,6 @@ pron = pron.replace("io", "jo").replace("eu", "ew").replace("ie", "je").\
         replace("ia", "ja").replace("ue", "we").replace("ai", "aj"). \
         replace("ua", "wa").replace("au", "aw").replace("ui", "wi")
 
-# ENGLISH ADAPTIONS
-pron = pron.replace("ei", "ej")
-
 # /r/ AFTER n, l, S, s
 pron = pron.replace("n4", "nr")
 pron = pron.replace("l4", "lr")
@@ -222,9 +222,9 @@ for match in re.finditer(r"\.", pron):       # where are the dots?
 # was there a stress? than put stress to possible stress position..
 if stress is not None:
     possibleStressPosition = (stress-1) * 1.5
-    print("possible stress position ", possibleStressPosition)
+    # print("possible stress position ", possibleStressPosition)
     nearestDot = findNearestDot(possibleStressPosition, listOfDotsPosition)
-    print("nearest Dot: ", nearestDot)
+    # print("nearest Dot: ", nearestDot)
     pron = pron[:nearestDot] + ".\"" + pron[nearestDot+1:]
 else:
     if len(listOfDotsPosition) > 0:
@@ -246,7 +246,7 @@ else:
     else:
         print("-- Pron has only one Syllable --")
 
-# letzte aktionen
+# last operations
 pron = pron.replace(".", "", 1)     # delete first dot again
 pron = createPronList()
 pron = " ".join(pron)               # put spaces
