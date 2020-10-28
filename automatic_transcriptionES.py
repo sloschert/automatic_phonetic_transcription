@@ -33,7 +33,7 @@ def create_pron_list():
     return pronList
 
 
-def createConsAndVocCode():
+def create_cons_and_voc_code():
     """
     create consonants and vocals code
     """
@@ -50,7 +50,7 @@ def createConsAndVocCode():
     return consAndVocCode
 
 
-def insertDotAtPosition(insertPoint):
+def insert_dot_at_position(insertPoint):
     """
     inserts dots at specified position
     """
@@ -62,7 +62,7 @@ def insertDotAtPosition(insertPoint):
         return pron
 
 
-def endsOnVowelEtc(string):
+def ends_on_vowel_etc(string):
     """
     checks if string ends on vowel, n or s
     """
@@ -71,7 +71,7 @@ def endsOnVowelEtc(string):
     return bool(x)
 
 
-def findNearestDot(possibleStress, list):
+def find_nearest_dot(possible_stress, list):
     """
     finds the nearest dot
     """
@@ -79,7 +79,7 @@ def findNearestDot(possibleStress, list):
     ergebnisSubtraktion = []
     z = 0
     while z < len(list):
-        e = abs(possibleStress - list[z])
+        e = abs(possible_stress - list[z])
         ergebnisSubtraktion.append(e)
         z += 1
     # print("result subtraction: ", ergebnisSubtraktion)
@@ -89,7 +89,7 @@ def findNearestDot(possibleStress, list):
     return list[listPositionNearestDot]
 
 
-def fricativesChangePos(f1, f2, string):
+def fricatives_change_pos(f1, f2, string):
     """
     changes position of fricatives
     """
@@ -158,29 +158,29 @@ listOfSyllParts = []
 
 # SYLLABLES / DOTS
 for j in range(len(originalPron)):
-    createConsAndVocCode()
+    create_cons_and_voc_code()
     create_pron_list()
 
     if re.search("^ccvcv", consAndVocCode)\
             or re.search("^cvcc", consAndVocCode)\
             or re.search("^cvvcv", consAndVocCode):
-        insertDotAtPosition(3)
+        insert_dot_at_position(3)
         # e.g. presentacion / discapacitado / biologo
     elif re.search("^ccvccv", consAndVocCode)\
             or re.search("^cvvcc", consAndVocCode)\
             or re.search("^ccvv", consAndVocCode):
-        insertDotAtPosition(4)
+        insert_dot_at_position(4)
         # e.g. grande / fuente / krej
     elif re.search("^ccvccc", consAndVocCode):
-        insertDotAtPosition(5)
+        insert_dot_at_position(5)
         # e.g. transcripcion
     elif re.search("^cvcv", consAndVocCode)\
             or re.search("^vcc", consAndVocCode)\
             or re.search("^vvc", consAndVocCode):
-        insertDotAtPosition(2)
+        insert_dot_at_position(2)
         # e.g. pacitado / imposible / aire
     elif re.search("^vcv", consAndVocCode):
-        insertDotAtPosition(1)
+        insert_dot_at_position(1)
         # e.g. identificacion
 
     listOfSyllables = re.split(r"\.", pron)
@@ -192,23 +192,23 @@ for j in range(len(originalPron)):
         pron = ".".join(listOfSyllParts)
         break
 
-pron = "." + pron   # add dot at first position, important for findNearestDot()
+pron = "." + pron  # add dot at first position, important to find_nearest_dot()
 
-pron = fricativesChangePos("k", "l", pron)
-pron = fricativesChangePos("t", "4", pron)
-pron = fricativesChangePos("f", "4", pron)
-pron = fricativesChangePos("B", "l", pron)
-pron = fricativesChangePos("b", "l", pron)
-pron = fricativesChangePos("p", "l", pron)
-pron = fricativesChangePos("b", "4", pron)
-pron = fricativesChangePos("B", "4", pron)
-pron = fricativesChangePos("f", "l", pron)
-pron = fricativesChangePos("D", "4", pron)
-pron = fricativesChangePos("d", "4", pron)
-pron = fricativesChangePos("g", "4", pron)
-pron = fricativesChangePos("G", "4", pron)
-pron = fricativesChangePos("p", "4", pron)
-pron = fricativesChangePos("k", "l", pron)
+pron = fricatives_change_pos("k", "l", pron)
+pron = fricatives_change_pos("t", "4", pron)
+pron = fricatives_change_pos("f", "4", pron)
+pron = fricatives_change_pos("B", "l", pron)
+pron = fricatives_change_pos("b", "l", pron)
+pron = fricatives_change_pos("p", "l", pron)
+pron = fricatives_change_pos("b", "4", pron)
+pron = fricatives_change_pos("B", "4", pron)
+pron = fricatives_change_pos("f", "l", pron)
+pron = fricatives_change_pos("D", "4", pron)
+pron = fricatives_change_pos("d", "4", pron)
+pron = fricatives_change_pos("g", "4", pron)
+pron = fricatives_change_pos("G", "4", pron)
+pron = fricatives_change_pos("p", "4", pron)
+pron = fricatives_change_pos("k", "l", pron)
 
 # diptongos
 pron = pron.replace("io", "jo").replace("eu", "ew").replace("ie", "je").\
@@ -246,7 +246,7 @@ for match in re.finditer(r"\.", pron):       # where are the dots?
 if stress is not None:
     possibleStressPosition = (stress-1) * 1.5
     # print("possible stress position ", possibleStressPosition)
-    nearestDot = findNearestDot(possibleStressPosition, listOfDotsPosition)
+    nearestDot = find_nearest_dot(possibleStressPosition, listOfDotsPosition)
     # print("nearest Dot: ", nearestDot)
     pron = pron[:nearestDot] + ".\"" + pron[nearestDot+1:]
 else:
@@ -254,14 +254,14 @@ else:
         positionLastDot = listOfDotsPosition[len(listOfDotsPosition) - 1]
         positionForelastDot = listOfDotsPosition[len(listOfDotsPosition) - 2]
         if len(listOfDotsPosition) > 1:
-            if endsOnVowelEtc(pron):
+            if ends_on_vowel_etc(pron):
                 pron = pron[:positionForelastDot] + ".\"" + \
                     pron[positionForelastDot+1:]
             else:
                 pron = pron[:positionLastDot] + ".\"" + \
                     pron[positionLastDot+1:]
         elif len(listOfDotsPosition) == 1:
-            if endsOnVowelEtc(pron):
+            if ends_on_vowel_etc(pron):
                 pron = "\"" + pron
             else:
                 pron = pron[:positionLastDot] + ".\"" +\
