@@ -26,39 +26,39 @@ def create_pron_list():
     """
     create pron list
     """
-    global pronList
-    pronList = []
+    global PRONLIST
+    PRONLIST = []
     for x in range(len(pron)):
-        pronList.append(pron[x])
-    return pronList
+        PRONLIST.append(pron[x])
+    return PRONLIST
 
 
 def create_cons_and_voc_code():
     """
     create consonants and vocals code
     """
-    global consAndVocCode
-    consAndVocCode = []
+    global CONSANDVOCCODE
+    CONSANDVOCCODE = []
     for i in range(len(pron)):
         if pron[i] in consList:
-            consAndVocCode.append("c")
+            CONSANDVOCCODE.append("c")
         elif pron[i] in vocList:
-            consAndVocCode.append("v")
+            CONSANDVOCCODE.append("v")
         else:
-            consAndVocCode.append("x")
-    consAndVocCode = "".join(consAndVocCode)
-    return consAndVocCode
+            CONSANDVOCCODE.append("x")
+    CONSANDVOCCODE = "".join(CONSANDVOCCODE)
+    return CONSANDVOCCODE
 
 
-def insert_dot_at_position(insertPoint):
+def insert_dot_at_position(insert_point):
     """
     inserts dots at specified position
     """
     global pron
-    global pronList
-    if len(pronList) >= insertPoint + 2:
-        pronList.insert(insertPoint, ".")
-        pron = "".join(pronList)
+    global PRONLIST
+    if len(PRONLIST) >= insert_point + 2:
+        PRONLIST.insert(insert_point, ".")
+        pron = "".join(PRONLIST)
         return pron
 
 
@@ -71,22 +71,22 @@ def ends_on_vowel_etc(string):
     return bool(x)
 
 
-def find_nearest_dot(possible_stress, list):
+def find_nearest_dot(possible_stress, listxy):
     """
     finds the nearest dot
     """
-    # print("original list: ", list)
-    ergebnisSubtraktion = []
+    # print("original list: ", listxy)
+    ergebnis_subtraktion = []
     z = 0
-    while z < len(list):
-        e = abs(possible_stress - list[z])
-        ergebnisSubtraktion.append(e)
+    while z < len(listxy):
+        e = abs(possible_stress - listxy[z])
+        ergebnis_subtraktion.append(e)
         z += 1
-    # print("result subtraction: ", ergebnisSubtraktion)
-    # print("smallest number: ", min(ergebnisSubtraktion))
-    listPositionNearestDot = \
-        ergebnisSubtraktion.index(min(ergebnisSubtraktion))
-    return list[listPositionNearestDot]
+    # print("result subtraction: ", ergebnis_subtraktion)
+    # print("smallest number: ", min(ergebnis_subtraktion))
+    list_position_nearest_dot = \
+        ergebnis_subtraktion.index(min(ergebnis_subtraktion))
+    return listxy[list_position_nearest_dot]
 
 
 def fricatives_change_pos(f1, f2, string):
@@ -153,7 +153,7 @@ pron = pron.replace("tS", "ö")      # tS --> ö
 consList = ["4", "b", "B", "d", "D", "f", "g", "G", "k", "l", "L", "m", "n",
             "J", "ä", "ö", "N", "p", "r", "s", "t", "S", "x", "T", "v", "r"]
 vocList = ["a", "e", "i", "o", "u", "@", "E", "O", "j", "w"]
-pronList = []
+PRONLIST = []
 listOfSyllParts = []
 
 # SYLLABLES / DOTS
@@ -161,25 +161,25 @@ for j in range(len(originalPron)):
     create_cons_and_voc_code()
     create_pron_list()
 
-    if re.search("^ccvcv", consAndVocCode)\
-            or re.search("^cvcc", consAndVocCode)\
-            or re.search("^cvvcv", consAndVocCode):
+    if re.search("^ccvcv", CONSANDVOCCODE)\
+            or re.search("^cvcc", CONSANDVOCCODE)\
+            or re.search("^cvvcv", CONSANDVOCCODE):
         insert_dot_at_position(3)
         # e.g. presentacion / discapacitado / biologo
-    elif re.search("^ccvccv", consAndVocCode)\
-            or re.search("^cvvcc", consAndVocCode)\
-            or re.search("^ccvv", consAndVocCode):
+    elif re.search("^ccvccv", CONSANDVOCCODE)\
+            or re.search("^cvvcc", CONSANDVOCCODE)\
+            or re.search("^ccvv", CONSANDVOCCODE):
         insert_dot_at_position(4)
         # e.g. grande / fuente / krej
-    elif re.search("^ccvccc", consAndVocCode):
+    elif re.search("^ccvccc", CONSANDVOCCODE):
         insert_dot_at_position(5)
         # e.g. transcripcion
-    elif re.search("^cvcv", consAndVocCode)\
-            or re.search("^vcc", consAndVocCode)\
-            or re.search("^vvc", consAndVocCode):
+    elif re.search("^cvcv", CONSANDVOCCODE)\
+            or re.search("^vcc", CONSANDVOCCODE)\
+            or re.search("^vvc", CONSANDVOCCODE):
         insert_dot_at_position(2)
         # e.g. pacitado / imposible / aire
-    elif re.search("^vcv", consAndVocCode):
+    elif re.search("^vcv", CONSANDVOCCODE):
         insert_dot_at_position(1)
         # e.g. identificacion
 
