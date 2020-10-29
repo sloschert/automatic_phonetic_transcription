@@ -1,6 +1,6 @@
 """
 This command line programm turns any Spanish word into it's phonetic
-transcription in X-Sampa.
+transcription in X-Sampa..
 """
 
 import re
