@@ -1,4 +1,7 @@
+
 <h1>Automatic Phonetic Transcription (ES)</h1>
+
+![Pylint](https://github.com/sloschert/automatic_phonetic_transcription/workflows/Pylint/badge.svg)
 
 This command line programm turns any **Spanish** word into it's phonetic
 transcription in X-Sampa.<br>
